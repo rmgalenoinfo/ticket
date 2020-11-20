@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20 nov. 2020 13:39:36 by Hibernate Tools 5.4.12.Final -->
+<hibernate-mapping>
+ <class name="com.ticket.cliente.entidades.TicketCliente"
+  schema="public" table="ticket_cliente">
+  <id name="idTicket" type="int">
+   <column name="id_ticket"/>
+   <generator class="increment"/>
+  </id>
+  <many-to-one class="com.ticket.cliente.entidades.Cliente"
+   fetch="select" name="cliente">
+   <column name="id_cliente" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="com.ticket.cliente.entidades.Estados"
+   fetch="select" name="estados">
+   <column name="id_estado" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="com.ticket.cliente.entidades.Prioridades"
+   fetch="select" name="prioridades">
+   <column name="id_prioridad"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="ticket" type="string">
+   <column length="250" name="ticket" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="clienteCaso" type="string">
+   <column length="250" name="cliente_caso"/>
+  </property>
+  <property generated="never" lazy="false" name="fechaVencimiento" type="timestamp">
+   <column length="29" name="fecha_vencimiento"/>
+  </property>
+  <property generated="never" lazy="false" name="acuerdo" type="string">
+   <column length="250" name="acuerdo"/>
+  </property>
+ </class>
+</hibernate-mapping>

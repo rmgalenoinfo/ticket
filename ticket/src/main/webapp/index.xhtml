@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Solicitud de Ticket</title>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+</h:head>
+
+<h:body>
+	<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+
+.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+	display: none;
+}
+</style>
+	<h:form>
+		<p:messages id="messages" />
+		<p:dataTable id="tableStateDT" var="tickets"
+			value="#{ticketClientesLista.ticketClientesList}"
+			widgetVar="ticketTable" multiViewState="true" rows="10"
+			paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15"
+			selection="#{ticketClientesLista.idTicket}"
+			rowKey="#{TicketCliente.idTicket}"
+			emptyMessage="No se encontro el Ticket"
+			filteredValue="#{ticketClientesLista.ticketClientesFiltros}">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<p:selectOneMenu onchange="PF('ticketTable').filter()"
+						onkeyup="PF('ticketTable').filter()"
+						style="width:100%; box-sizing: border-box;">
+						<f:selectItem itemLabel="Escoja Una" itemValue="#{null}"
+							noSelectionOption="true" />
+						<f:selectItems value="#{estadosLista.estadosList}" var="estados"
+							itemLabel="#{estados.estado}" itemValue="#{estados.idEstado}" />
+					</p:selectOneMenu>
+				</p:outputPanel>
+
+			</f:facet>
+
+			<p:column headerText="Id">
+				<h:outputText value="#{tickets.idTicket}" />
+			</p:column>
+
+			<p:column headerText="Ticket">
+				<h:outputText value="#{tickets.ticket}" />
+			</p:column>
+
+			<p:column headerText="Estado">
+				<h:outputText value="#{tickets.estados.estado}" />
+			</p:column>
+
+			<p:column headerText="Prioridad">
+				<h:outputText value="#{tickets.prioridades.prioridad}" />
+			</p:column>
+
+			<p:column headerText="Cliente con el caso">
+				<h:outputText value="#{tickets.cliente.apellido}" />
+			</p:column>
+			
+			<p:column headerText="Fecha Limite">
+				<h:outputText value="#{tickets.fechaVencimiento}" />
+			</p:column>
+			
+			<p:column headerText="Acuerdo">
+				<h:outputText value="#{tickets.acuerdo}" />
+			</p:column>
+			
+			<p:column headerText="Editar">
+				<h:commandLink action="#{ticketClientesAccion.buscarTocken(tickets.idTicket)}" value="Editar" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+	<h:form>
+		<p:panel id="basic" header="Registrar tocken"
+			style="margin-bottom:20px">
+			<h:panelGrid columns="2" cellpadding="10">
+
+				<p:outputLabel for="ticket" value="Ticket"></p:outputLabel>
+				<p:inputText id="ticket" value="#{ticketClientesAccion.ticket}" />
+
+				<p:outputLabel for="estado" value="Ticket"></p:outputLabel>
+				<p:selectOneMenu id="estado" value="#{ticketClientesAccion.idEstado}"
+					style="width:100%; box-sizing: border-box;">
+					<f:selectItem itemLabel="Escoja Una" itemValue="#{null}"
+						noSelectionOption="true" />
+					<f:selectItems value="#{estadosLista.estadosList}" var="estados"
+						itemLabel="#{estados.estado}" itemValue="#{estados.idEstado}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="prioridad" value="Prioridad"></p:outputLabel>
+				<p:selectOneMenu id="prioridad"
+					value="#{ticketClientesAccion.idPrioridad}"
+					style="width:100%; box-sizing: border-box;">
+					<f:selectItem itemLabel="Escoja Una" itemValue="#{null}"
+						noSelectionOption="true" />
+					<f:selectItems value="#{prioridadesLista.prioridadesList}"
+						var="priorid" itemLabel="#{priorid.prioridad}"
+						itemValue="#{priorid.idPrioridad}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="cliente" value="Cliente"></p:outputLabel>
+				<p:selectOneMenu id="cliente" value="#{ticketClientesAccion.idCliente}"
+					style="width:100%; box-sizing: border-box;">
+					<f:selectItem itemLabel="Escoja Una" itemValue="#{null}"
+						noSelectionOption="true" />
+					<f:selectItems value="#{clientesLista.clienteList}" var="client"
+						itemLabel="#{client.apellido}" itemValue="priorid.idCliente" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="fecha" value="Fecha Limite"></p:outputLabel>
+				<p:calendar id="fecha" value="#{ticketClientesAccion.fechaLimite}" />
+
+				<p:outputLabel for="acuerdo" value="Acuerdo"></p:outputLabel>
+				<p:inputText id="acuerdo" value="#{ticketClientesAccion.acuerdo}" />
+				
+				<p:commandButton value="Grabar" action="#{ticketClientesAccion.grabar()}"></p:commandButton>
+
+			</h:panelGrid>
+		</p:panel>
+
+	</h:form>
+
+
+</h:body>
+
+</html>

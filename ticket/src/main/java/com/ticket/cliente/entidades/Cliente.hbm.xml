@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20 nov. 2020 13:39:36 by Hibernate Tools 5.4.12.Final -->
+<hibernate-mapping>
+ <class name="com.ticket.cliente.entidades.Cliente" schema="public" table="cliente">
+  <id name="idCliente" type="int">
+   <column name="id_cliente"/>
+   <generator class="increment"/>
+  </id>
+  <property generated="never" lazy="false" name="apellido" type="string">
+   <column length="250" name="apellido"/>
+  </property>
+  <property generated="never" lazy="false" name="nombre" type="string">
+   <column length="250" name="nombre"/>
+  </property>
+  <property generated="never" lazy="false" name="cedula" type="string">
+   <column length="13" name="cedula"/>
+  </property>
+  <property generated="never" lazy="false" name="fechaContrato" type="timestamp">
+   <column length="29" name="fecha_contrato"/>
+  </property>
+  <property generated="never" lazy="false" name="estado" type="java.lang.Integer">
+   <column name="estado"/>
+  </property>
+  <set fetch="select" inverse="true" lazy="true" name="ticketClientes"
+   sort="unsorted" table="ticket_cliente">
+   <key>
+    <column name="id_cliente" not-null="true"/>
+   </key>
+   <one-to-many class="com.ticket.cliente.entidades.TicketCliente"/>
+  </set>
+ </class>
+</hibernate-mapping>
